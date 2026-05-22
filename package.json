@@ -1,0 +1,19 @@
+{
+  "name": "aris",
+  "version": "0.1.0",
+  "description": "Aris — an AI bot chat assistant. Built on top of the leaked Claude Code source code, rebranded and extended with a 1,000-credit free tier for every new user.",
+  "private": true,
+  "type": "module",
+  "main": "src/main.tsx",
+  "scripts": {
+    "build": "echo 'Aris is currently consumed as TypeScript source; no build step is wired up yet.' && exit 0",
+    "lint": "echo 'No linter configured yet for Aris.' && exit 0",
+    "typecheck": "echo 'No typecheck configured yet for Aris.' && exit 0"
+  },
+  "engines": {
+    "node": ">=18",
+    "bun": ">=1.1"
+  },
+  "author": "Aris contributors",
+  "license": "UNLICENSED"
+}
