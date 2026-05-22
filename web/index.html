@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aris — AI bot chat</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo" aria-hidden="true">A</span>
+        <div>
+          <h1>Aris</h1>
+          <p class="tagline">AI bot chat — every new user starts with 1,000 credits</p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <div class="credit-pill" id="credit-pill" title="Your remaining Aris credits">
+          <span class="credit-icon" aria-hidden="true">◈</span>
+          <span class="credit-amount" id="credit-amount">1,000</span>
+          <span class="credit-label">credits</span>
+        </div>
+        <button class="icon-btn" id="open-settings" aria-label="Settings" title="Settings">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="chat" class="chat" aria-live="polite"></main>
+
+    <form id="composer" class="composer" autocomplete="off">
+      <textarea
+        id="composer-input"
+        rows="1"
+        placeholder="Напиши что-нибудь Aris…  (Enter — отправить, Shift+Enter — новая строка)"
+        aria-label="Сообщение Aris"
+      ></textarea>
+      <button type="submit" id="send-btn" class="send-btn" title="Send (Enter)">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </form>
+
+    <dialog id="settings-dialog" class="settings-dialog">
+      <form method="dialog" class="settings-form">
+        <h2>Настройки Aris</h2>
+
+        <label class="field">
+          <span>Anthropic API key</span>
+          <input id="api-key-input" type="password" placeholder="sk-ant-…" autocomplete="off" />
+          <small>
+            Хранится только в твоём браузере (localStorage). Без ключа Aris работает в demo-режиме
+            с тестовыми ответами.
+          </small>
+        </label>
+
+        <label class="field">
+          <span>Модель</span>
+          <select id="model-select">
+            <option value="claude-haiku-4-5">claude-haiku-4-5 (быстро, дёшево)</option>
+            <option value="claude-sonnet-4-5" selected>claude-sonnet-4-5 (по умолчанию)</option>
+            <option value="claude-opus-4-5">claude-opus-4-5 (сильнее, дороже)</option>
+          </select>
+        </label>
+
+        <fieldset class="field">
+          <legend>Кредиты</legend>
+          <p class="credits-info">
+            Сейчас на балансе:
+            <strong id="credit-amount-settings">1,000</strong> кредитов.
+            <br />Каждое сообщение списывает 1 кредит + 1 кредит за каждые 1,000 токенов реального
+            запроса.
+          </p>
+          <div class="settings-actions">
+            <button type="button" id="reset-credits-btn" class="secondary-btn">
+              Восстановить 1,000 кредитов
+            </button>
+            <button type="button" id="grant-credits-btn" class="secondary-btn">
+              + 1,000 кредитов
+            </button>
+          </div>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend>История</legend>
+          <button type="button" id="clear-history-btn" class="secondary-btn danger">
+            Очистить чат
+          </button>
+        </fieldset>
+
+        <menu class="dialog-menu">
+          <button id="save-settings-btn" value="save">Сохранить</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <template id="message-template">
+      <div class="message">
+        <div class="avatar"></div>
+        <div class="bubble">
+          <div class="author"></div>
+          <div class="content"></div>
+        </div>
+      </div>
+    </template>
+
+    <script src="aris.js"></script>
+  </body>
+</html>
